@@ -5,6 +5,9 @@ dotenv.config();
 
 const { sendGmail } = require("../Mailer/MailController.js")
 
+router.get('/', async (req, res) => {
+    res.json("hiiii")
+});
 router.post('/visitor-mail', async (req, res) => {
     try {
         let data = req.body
