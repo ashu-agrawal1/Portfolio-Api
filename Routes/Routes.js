@@ -28,7 +28,7 @@ router.post("/visitor-mail", async (req, res) => {
       message,
       clientIp,
     });
-    sendGmail(emailData);
+    await sendGmail(emailData);
     await newMail.save();
     res.sendStatus(200);
   } catch (e) {
