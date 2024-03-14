@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const dotenv = require("dotenv");
+const axios = require("axios");
 const { Mail } = require("../Models/Mails.js");
 
 dotenv.config();
@@ -35,4 +36,22 @@ router.post("/visitor-mail", async (req, res) => {
     res.sendStatus(500);
   }
 });
+
+// proxy api to disable cors error in browser
+router.post("/proxy", async (req, res) => {
+  try {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    const { url } = req.body;
+    const response = await axios.get(url);
+    res.send(response.data);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error fetching data from the requested URL");
+  }
+});
+
 module.exports = { router };
